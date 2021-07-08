@@ -1,45 +1,54 @@
 const express = require('express')
-
 let usuarios = require('../routes/usuarios')
 let cors = require('cors')
+const { dbConnection } = require('../database/config.databases')
 
-class Server{
+class Server {
 
-    constructor(){
-        this.app= express()
-        this.port= process.env.PORT
-        this.usuariosPath='/api/usuarios';
-        
+    constructor() {
+        this.app = express()
+        this.port = process.env.PORT
+        this.usuariosPath = '/api/usuarios';
+
+        //Conecta a base de datos
+        this.conectarDB();
+
         //Middlewares
         this.middlewares();
-        
-        //Ruras de mi aplicacion
+
+        //Rutas de mi aplicacion
         this.routes();
 
     }
 
-    middlewares(){
-       
-        //CORS
-       this.app.use(cors());
+    async conectarDB() {
+        //aqui podemo conectar multimples conexion multimples
+        //aqui solo hacemos una conexion
+        await dbConnection();
+    }
 
-       //Lectaura y parseo del body
-       this.app.use(express.json());
-        
+    middlewares() {
+
+        //CORS
+        this.app.use(cors());
+
+        //Lectaura y parseo del body
+        this.app.use(express.json());
+
         //Directorio Publico
         this.app.use(express.static('public'));
     }
 
-    routes(){
+    routes() {
 
         //otro tipo de middl configuramos el router
-    this.app.use(this.usuariosPath, usuarios);
-    
+        this.app.use(this.usuariosPath, usuarios);
+
     }
 
-    listen(){
-        this.app.listen(this.port, ()=>{
-            console.log("Servidor corriendo en : ",this.port)
+    listen() {
+        this.app.listen(this.port, () => {
+            console.log("Servidor corriendo en : ", this.port)
         })
     }
 
