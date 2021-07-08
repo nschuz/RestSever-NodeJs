@@ -1,5 +1,6 @@
 const express = require('express')
 let usuarios = require('../routes/usuarios')
+let auth = require('../routes/auth')
 let cors = require('cors')
 const { dbConnection } = require('../database/config.databases')
 
@@ -9,6 +10,7 @@ class Server {
         this.app = express()
         this.port = process.env.PORT
         this.usuariosPath = '/api/usuarios';
+        this.authPath = '/api/auth'
 
         //Conecta a base de datos
         this.conectarDB();
@@ -42,7 +44,9 @@ class Server {
     routes() {
 
         //otro tipo de middl configuramos el router
+        this.app.use(this.authPath, auth)
         this.app.use(this.usuariosPath, usuarios);
+
 
     }
 

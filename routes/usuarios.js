@@ -2,10 +2,10 @@ const { usuariosGet, usuariosPut, usuariosDelete, usuariosPost } = require('../c
 //expres validtaor es una gran coleccion de midlwares 
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar_campos')
-const router = require('express').Router();
+const { Router } = require('express');
 const { esRolValido, emailExiste, existeUsuarioPorId } = require('../helpers/db_validators')
 
-
+const router = Router();
 router.get('/', usuariosGet)
 
 router.put('/:id', [
