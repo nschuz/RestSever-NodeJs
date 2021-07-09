@@ -34,6 +34,9 @@ class Server {
         //CORS
         this.app.use(cors());
 
+        //json
+        this.app.use(express.json());
+
         //Lectaura y parseo del body
         this.app.use(express.json());
 

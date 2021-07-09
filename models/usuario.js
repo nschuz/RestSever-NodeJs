@@ -49,7 +49,10 @@ const UsuarioSchema = Schema({
 //UNA UFUNCION DE FLECHA MANTIENE LO QUE APUNTA EL THIS FUERA DE LA MISMA 
 // y aqui necesito que el this apunte a la la instancia creada 
 UsuarioSchema.methods.toJSON = function() {
-    const { __v, password, ...usuario } = this.toObject();
+    const { __v, password, _id, ...usuario } = this.toObject();
+
+    usuario.uid = _id
+
     return usuario;
 }
 

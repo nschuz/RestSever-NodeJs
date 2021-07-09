@@ -98,12 +98,17 @@ const usuariosDelete = async(req, res) => {
     // No es recomendable porque perdemos la intgridad referencial
     //const usuario = await Usuario.findByIdAndDelete(id);
 
+    //como pasa todo por refrencia puedo extrarer 
+    //const uid = req.uid;
+
 
     const usuario = await Usuario.findByIdAndUpdate(id, { estado: false });
+    const usuarioIdentificado = req.usuario;
 
 
     res.json({
-        usuario
+        usuario,
+        usuarioIdentificado
     })
 }
 
