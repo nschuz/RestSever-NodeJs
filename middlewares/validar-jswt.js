@@ -18,8 +18,22 @@ const validarJWT = async(req = request, res = response, next) => {
         //ller el usuario que corresponda al uid
         const usuario = await Usuario.findById(uid);
 
-        req.usuario = usuario;
+        if (!usuario) {
+            return res.status(401).json({
+                msg: 'Token no valido - usuario con estado false'
+            })
+        }
 
+
+
+        //si el usuario no ha sido eliminado por ende no puede logearse
+        if (!usuario.estado) {
+            return res.status(401).json({
+                msg: 'Token no valido - usuario con estado false'
+            })
+        }
+
+        req.usuario = usuario;
         next();
 
     } catch (err) {

@@ -9,6 +9,7 @@ const { cifrarPassword } = require('../helpers/db_validators')
 
 
 
+
 const usuariosGet = async(req, res) => {
 
     const { limite = 5, desde = 0 } = req.query;

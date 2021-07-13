@@ -1,10 +1,14 @@
 const { usuariosGet, usuariosPut, usuariosDelete, usuariosPost } = require('../controllers/usuarios');
 //expres validtaor es una gran coleccion de midlwares 
 const { check } = require('express-validator');
-const { validarCampos } = require('../middlewares/validar_campos')
 const { Router } = require('express');
 const { esRolValido, emailExiste, existeUsuarioPorId } = require('../helpers/db_validators')
-const { validarJWT } = require('../middlewares/validar-jswt')
+    //const { validarJWT } = require('../middlewares/validar-jswt')
+    //const { validarCampos } = require('../middlewares/validar_campos')
+    //const { esAdminRole, tieneRole } = require('../middlewares/validar-roles')
+
+const { validarCampos, validarJWT, esAdminRole, tieneRole } = require('../middlewares/index')
+
 
 const router = Router();
 router.get('/', usuariosGet)
@@ -31,6 +35,8 @@ router.post('/', [
 
 router.delete('/:id', [
     validarJWT,
+    //esAdminRole,
+    tieneRole('ADMIN_ROLE', 'VENTAS_ROLE'),
     check('id', 'No es  un id valido').isMongoId(),
     check('id').custom(existeUsuarioPorId),
     validarCampos
